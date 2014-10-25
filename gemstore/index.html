@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="gemStore">
+
+<!-- http://campus.codeschool.com/courses/shaping-up-with-angular-js -->
+
 <head>
 <meta charset="US-ASCII">
 <title>Gem store</title>
@@ -8,16 +11,47 @@
 <script type="text/javascript" src="js/app.js"></script>
 </head>
 
-<body ng-controller="StoreController as store">
-    <<div class="product row">
-        <em class="pull-right">{{store.product.price}}</em>
+<body class="container" ng-controller="StoreController as store">
+    <div class="product row" ng-repeat="product in store.products">
+        <h3>
+            {{product.name}} <em class="pull-right">{{product.price
+                | currency}}</em>
+        </h3>
+        <!-- Image Gallery  -->
+        <div class="gallery" ng-show="product.images.length">
+            <div class="img-wrap">
+                <img ng-src="{{product.images[0]}}" />
+            </div>
+            <ul class="img-thumbnails clearfix">
+                <li class="small-image pull-left thumbnail"
+                    ng-repeat="img in product.images"><img
+                    ng-src="{{img}}" /></li>
+            </ul>
+        </div>
+        <section class="tab" ng-controller="TabController as tab">
+            <ul class="nav nav-pills">
+                <li ng-class="{ active: tab.isSet(1) }"><a href
+                    ng-click="tab.setTab(1)">Description</a></li>
+                <li ng-class="{ active: tab.isSet(2) }"><a href
+                    ng-click="tab.setTab(2)">Specs</a></li>
+                <li ng-class="{ active: tab.isSet(3) }"><a href
+                    ng-click="tab.setTab(3)">Reviews</a></li>
+            </ul>
+            <div ng-show="tab.isSet(1)">
+                <h4>Description</h4>
+                <blockquote>{{product.description}}</blockquote>
+            </div>
+            <div ng-show="tab.isSet(2)">
+                <h4>Specs</h4>
+                <blockquote>Shine: {{product.shine}}</blockquote>
+            </div>
+            <div ng-show="tab.isSet(3)">
+                <h4>Reviews</h4>
+                <blockquote></blockquote>
+            </div>
+        </section>
     </div>
- -->
-    <h2>{{store.product.name}}</h2>
-    <h2>{{store.product.price}}</h2>
 
-    <p>{{store.product.description}}</p>
-    <button ng-show="store.product.canPurchase">Add to Cart</button>
 </body>
 
 
