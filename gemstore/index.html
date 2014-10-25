@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="gemStore">
+<head>
+<meta charset="US-ASCII">
+<title>Gem store</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</head>
+
+<body ng-controller="StoreController as store">
+    <<div class="product row">
+        <em class="pull-right">{{store.product.price}}</em>
+    </div>
+ -->
+    <h2>{{store.product.name}}</h2>
+    <h2>{{store.product.price}}</h2>
+
+    <p>{{store.product.description}}</p>
+    <button ng-show="store.product.canPurchase">Add to Cart</button>
+</body>
+
+
+
+</html>
