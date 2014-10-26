@@ -1,0 +1,97 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+<body>
+	<div id="header-container">
+		<header class="wrapper">
+			<h1 id="title">Ivo Stoyanov</h1>
+			<nav>
+				<ul>
+					<li><a href="#">Some</a></li>
+					<li><a href="#">navigation</a></li>
+					<li><a href="#">links</a></li>
+				</ul>
+			</nav>
+		</header>
+	</div>
+	<div id="main" class="wrapper">
+		<aside>
+			<h3>Something aside</h3>
+		</aside>
+		<article>
+			<header>
+				<h2>Testing knockout.js</h2>
+			</header>
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+
+            <p>First name: <input data-bind="value: firstName"></span></p>
+            <p>Last name: <input data-bind="value: lastName"></span></p>
+            <p>Full name: <span data-bind="text: fullName"></span></p>
+
+<!--
+			<footer>
+			<h3>article footer</h3>
+				<p>Footer content</p>
+			</footer>
+-->
+		</article>
+	</div>
+	<div id="footer-container">
+		<footer class="wrapper">
+			<h3>A nice footer</h3>
+		</footer>
+	</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+
+<script src="js/libs/knockout-1.2.1.js"></script>
+
+<!-- end scripts-->
+
+
+<!--[if lt IE 7 ]>
+	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+<script>
+    // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
+    var viewModel = {
+        firstName: ko.observable("Ivo"),
+        lastName: ko.observable("Stoyanov"),
+        capitalizeLastName: function () {
+            var currentVal = this.lastName();        // Read the current value
+            this.lastName(currentVal.toUpperCase()); // Write back a modified value
+        }
+    };
+
+    viewModel.fullName = ko.dependentObservable(function () {
+        return this.firstName() + " " + this.lastName();
+    }, viewModel);
+    
+    // Activates knockout.js
+    ko.applyBindings(viewModel);
+</script>
+
+
+
+</body>
+</html>

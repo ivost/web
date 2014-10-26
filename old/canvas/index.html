@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Canvas test</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="styles/site.css">
+    <script type="text/javascript" src="scripts/http_code.jquery.com_jquery-1.6.2.js"></script>
+    <script type="text/javascript" src="scripts/breakout.js"></script>
+</head>
+<body onload="timer1 = init();">
+
+<header>
+    <hgroup>
+        <h1></h1>
+    </hgroup>
+        <nav>
+            <h1>Go to</h1>
+            <ul>
+                <li><a href="index.html">Break-out</a></li>
+                <li><a href="knockout.html">Knockout</a></li>
+            </ul>
+        </nav>
+</header>
+<article>
+    <h1>Canvas 0.1</h1>
+
+    <canvas id="canvas" width="300" height="300"></canvas>
+
+    <aside>
+        <h1>Event Log</h1>
+
+        <div id="eventLogContainer">
+            <ul id="log"></ul>
+        </div>
+    </aside>
+</article>
+<footer>
+    <p></p>
+</footer>
+
+
+<script type="text/javascript">
+
+    function draw() {
+        clear();
+        drawBricks();
+        drawPaddle();
+        drawCircle(x, y, ballR);
+        slowCheck();
+        brickCheck();
+        horizontalCheck();
+        verticalCheck(paddleW, dx, timer1);
+        slowdown();
+        // next
+        x += dx;
+        y += dy;
+    }
+
+</script>
+
+</body>
+</html>
