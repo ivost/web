@@ -13,6 +13,9 @@
 		this.setTab = function(t) {
 			this.tab = t;
 		};
+		this.isSet = function(t) {
+			return this.tab == t;
+		};
 	});
 
 	var gems = [
