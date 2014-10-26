@@ -1,0 +1,9 @@
+/* red color for invalid */
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+
+/* green color for valid */
+.ng-valid.ng-dirty {
+	border-color: #78FA89;
+}
