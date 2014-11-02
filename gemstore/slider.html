@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="gemStore">
+
+<head>
+<meta charset="US-ASCII">
+<title>testing progress bar</title>
+<link rel="stylesheet" href="css/slider.css">
+</head>
+
+<body>
+    <hr>
+    <hr class="rotate">
+
+    <section>
+        <h2>Task Progress</h2>
+        <p>
+            Progress:
+            <progress id="p" value="50" max="100">
+            </progress>
+        </p>
+        <div id="ptr" style="position: absolute; top:200px; left:200px">
+        <img  src="images/gem-01.gif" width="20px" height="20px"/>
+        <span id="pos">x: 0, y: 0</span>
+        </div>
+        <script>
+		var x = 0;
+		var y = 0;
+		var delta = 200;
+		var ptr = document.getElementById('ptr');
+		var pos = document.getElementById('pos');
+		
+        var timer = setInterval(function() {
+ 			//console.log("ptr.style.top " + ptr.style.top);
+			//console.log("move x " + x + ", y " + y );
+			x += 10;
+			y += 20;
+			ptr.style.left = x + "px";
+			ptr.style.top = y + "px";
+			pos.innerHTML = "x: " + x + ", y: " + y;
+			if (x > 100)
+			{
+				clearInterval(timer);
+				console.log("Stop");
+			}
+        }, delta);
+        
+        var progressBar = document
+					.getElementById('p');
+			function updateProgress(newValue) {
+				progressBar.value = newValue;
+				progressBar
+						.getElementsByTagName('span')[0].textContent = newValue;
+			}
+		</script>
+    </section>
+
+</body>
+
+</html>
