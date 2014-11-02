@@ -1,0 +1,47 @@
+<head>	
+	<link rel="stylesheet" type="text/css" href="css/ng-slider.css">
+	<link rel="stylesheet" type="text/css" href="css/ng-slider.round.css">
+	<script type="text/javascript" src="../bower_components/angular/angular.js"></script>	
+	<script type="text/javascript" src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>	
+	<script type="text/javascript" src="../bower_components/angular-mocks/angular-mocks.js"></script>	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>	
+	<script type="text/javascript" src="ng-slider.js"></script>
+	<script type="text/javascript" src="ng-slider.tmpl.js"></script>
+</head>
+<body>
+
+	<div ng-app="myApp" ng-controller="ctrl">
+		</br>
+		</br>
+		<div>
+			<input ng-model="value"  type="text" id="mySlider" slider options="options" />
+		</div>
+		</br>
+		</br>
+		<div>
+			Current value is: {{value}}
+		</div>
+		</br>
+		</br>
+	</div>
+
+	<script type="text/javascript">	
+		function ctrl($scope, $filter) {			
+			$scope.value = "10";
+
+			$scope.options = {				
+				from: 0,
+				to: 40,
+				step: 1.0,
+				dimension: "",
+				round: 1,
+				scale: [0, '|', 10, '|', 20, '|' , 30, '|', 40],
+			};
+
+		}
+
+		var app = angular.module('myApp', ['ngSlider']).controller('ctrl', ctrl);
+
+	</script>
+
+</body>
