@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>gestd demo</title>
+	<link rel="stylesheet" type="text/css" media="screen,print" href="css/main.css" title="Default" />
+	<script type="text/javascript" src="js/log4javascript.js"></script>
+	
+<script type="text/javascript">
+	var log = log4javascript.getLogger();
+	var cont = document.getElementById('console');
+	
+	//InPageAppender(HTMLElement container[, Boolean lazyInit, Boolean initiallyMinimized, Boolean useDocumentWrite, String width, String height])
+	//var appender = new log4javascript.InPageAppender(cont, false, false, true, 400, 400);
+	var appender = new log4javascript.InPageAppender(cont);
+	//appender.setNewestMessageAtTop(true);
+	log.addAppender(appender);
+
+	for (i=0; i<10; i++) {
+		log.debug("Hello world " + i);
+	}
+</script>
+	
+</head>
+
+<body onload="loaded = true; document.getElementById('enabled').checked = true;">
+		<div id="container" class="nonav">
+			<div id="content">
+				<div id="nav">
+					<a class="navitem" href="demo.html"> Home </a>
+					| <a class="navitem" href="page1index.html"> Page2 </a></div>
+				<h1>gesture demo</h1>
+			</div>
+			
+			<div id="console">
+			</div>
+			
+		</div>
+<br class="clear" />
+</body>
+</html>
