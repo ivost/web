@@ -1,161 +1,168 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-	<title>gesture test</title>
-	<link rel="stylesheet" type="text/css" media="screen,print" href="css/main.css" title="Default" />
-	<script type="text/javascript" src="js/log4javascript.js"></script>
-	
-<script type="text/javascript">
-	var log = log4javascript.getLogger();
-	var cont = document.getElementById('console');
-	
-	//InPageAppender(HTMLElement container[, Boolean lazyInit, Boolean initiallyMinimized, Boolean useDocumentWrite, String width, String height])
-	//var appender = new log4javascript.InPageAppender(cont, false, false, true, 400, 400);
-	var appender = new log4javascript.InPageAppender(cont);
-	//appender.setNewestMessageAtTop(true);
-	log.addAppender(appender);
+    <meta charset="UTF-8">
+    <title>gesture test</title>
+    <link rel="stylesheet" type="text/css" media="screen,print" href="css/main.css" title="Default" />
+    <script type="text/javascript" src="js/log4javascript.js"></script>
+
+    <script type="text/javascript">
+        var log = log4javascript.getLogger();
+        var cont = document.getElementById('console');
+
+         //InPageAppender(HTMLElement container[, Boolean lazyInit, Boolean initiallyMinimized, Boolean useDocumentWrite, String width, String height])
+         //var appender = new log4javascript.InPageAppender(cont, false, false, true, 400, 400);
+        var appender = new log4javascript.InPageAppender(cont);
+         //appender.setNewestMessageAtTop(true);
+        log.addAppender(appender);
 
 
-var ws_url = 'ws://10.0.1.101:8788/';
-var ws_protocol = "eventmgr";
-var ws;
-var state = 0;
-// registered events
-var registry_ = [];
-var user_input_event_id = 115;
-var request = {};
+        var ws_url = 'ws://10.0.1.101:8788/';
+        var ws_protocol = "eventmgr";
+        var ws;
+        var state = 0;
+         // registered events
+        var registry_ = [];
+        var user_input_event_id = 115;
+        var request = {};
 
-var gest_types = ["PAN", "SWIPE", "PRESS", "RELEASE", "LONG_PRESS",
+        var gest_types = ["PAN", "SWIPE", "PRESS", "RELEASE", "LONG_PRESS",
         "ROTATE", "TAP", "DOUBLE_TAP", "SELECT", "CONFIRM",
         "CANCEL", "GRAB", "OTHER"];
 
-var gest_dir = ["NONE", "LEFT", "RIGHT", 
-		"UP", "DOWN", "IN", "OUT"];
+        var gest_dir = ["NONE", "LEFT", "RIGHT",
+  "UP", "DOWN", "IN", "OUT"];
 
-var gest_state = ["SINGLE", "START", "UPDATE", 
-		"END", "CANCEL"];
+        var gest_state = ["SINGLE", "START", "UPDATE",
+  "END", "CANCEL"];
 
-try {
-    trace('open websocket to ' + ws_url);
-	ws = new WebSocket(ws_url, ws_protocol);
-    ws.onopen = function() {
-        trace('websocket opened');
-        send_init('');
-        // subscribe
-        register([user_input_event_id], function(event_id, evt) {
-			if (event_id == 115) {
-        		show_gesture(evt);
-        	}
-            //trace("*** received " + event_id + " [" + event_data + "] " + JSON.stringify(event_data));
-            //trace(event_data);
-        });
-    } 
+        try {
+            trace('open websocket to ' + ws_url);
+            ws = new WebSocket(ws_url, ws_protocol);
+            ws.onopen = function () {
+                trace('websocket opened');
+                send_init('');
+                // subscribe
+                register([user_input_event_id], function (event_id, evt) {
+                    if (event_id == 115) {
+                        show_gesture(evt);
+                    }
+                    //trace("*** received " + event_id + " [" + event_data + "] " + JSON.stringify(event_data));
+                    //trace(event_data);
+                });
+            }
 
-    ws.onmessage = function (msg) {
-      //trace('got data: ' + msg.data);
-      try {
-      	var evt = JSON.parse(msg.data);
-      	//trace('event_id: ' + evt.event_id);
-      	if (evt.event_data) {
-      		for (idx = 0; idx < registry_.length; idx++) {
-        		if (registry_[idx].eventId === evt.event_id) {
-          			registry_[idx].eventListener(evt.event_id, evt.event_data);
-         		}
-     	 	}
-      	}
-      } catch(exception) {
-    	log.error('Error ' + exception + ": " + msg.data); 
-      } 
-	}
+            ws.onmessage = function (msg) {
+                trace('got data: ' + msg.data);
+                try {
+                    var evt = JSON.parse(msg.data);
+                    //trace('event_id: ' + evt.event_id);
+                    if (evt.event_data) {
+                        for (idx = 0; idx < registry_.length; idx++) {
+                            if (registry_[idx].eventId === evt.event_id) {
+                                registry_[idx].eventListener(evt.event_id, evt.event_data);
+                            }
+                        }
+                    }
+                } catch (exception) {
+                    log.error('Error ' + exception + ": " + msg.data);
+                }
+            }
 
-    ws.onclose = function(){
-        trace('websocket closed');
-    }
-} catch(exception) {
-    alert('Error' + exception);  
-}
+            ws.onclose = function () {
+                trace('websocket closed');
+            }
+        } catch (exception) {
+            alert('Error' + exception);
+        }
 
-function show_gesture(gest) {
-	// todo
-	set_label("gtype", gest_types[gest.type]);
-	set_label("gdir", gest_dir[gest.direction]);
-	set_label("gx", gest.pos_x);
-	set_label("gy", gest.pos_y);
-	set_label("gz", gest.pos_z);
-}
+        function show_gesture(gest) {
+            // todo
+            set_label("gtype", gest_types[gest.type]);
+            set_label("gdir", gest_dir[gest.direction]);
+            set_label("gx", gest.pos_x);
+            set_label("gy", gest.pos_y);
+            set_label("gz", gest.pos_z);
+        }
 
-function set_label(id, val) {
-	var label = document.getElementById(id);
-	if (label)
-		label.innerHTML = val;
+        function set_label(id, val) {
+            var label = document.getElementById(id);
+            if (label)
+                label.innerHTML = val;
 
-}
-function send_event(event_id, event_data) {
-    var request = {};
-    request.req = 'send_event';
-    request.event_id = event_id;
-    request.event_data = event_data;
-    trace("sending " + JSON.stringify(request));
-    ws.send(JSON.stringify(request));
-}
+        }
 
-function send_init(client_name) {
-    var request = {};
-    request.req = 'init';
-    request.client_name = client_name;
-    ws.send(JSON.stringify(request));
-}
+        function send_event(event_id, event_data) {
+            var request = {};
+            request.req = 'send_event';
+            request.event_id = event_id;
+            request.event_data = event_data;
+            trace("sending " + JSON.stringify(request));
+            ws.send(JSON.stringify(request));
+        }
 
-function register(eventArray, eventListener) {
-  for (idx = 0; idx < eventArray.length; idx++) {
-    registry_.push({'eventId': eventArray[idx],
-      'eventListener': eventListener});
-  }
-  var request = {'req': 'register_events',
-    'event_array': eventArray};
-  ws.send(JSON.stringify(request));
-};
+        function send_init(client_name) {
+            var request = {};
+            request.req = 'init';
+            request.client_name = client_name;
+            ws.send(JSON.stringify(request));
+        }
 
-function trace(obj) {
-  console.log(obj);
-  log.debug(obj)
-}
-</script>
-	
+        function register(eventArray, eventListener) {
+            for (idx = 0; idx < eventArray.length; idx++) {
+                registry_.push({
+                    'eventId': eventArray[idx],
+                    'eventListener': eventListener
+                });
+            }
+            var request = {
+                'req': 'register_events',
+                'event_array': eventArray
+            };
+            ws.send(JSON.stringify(request));
+        };
+
+        function trace(obj) {
+            console.log(obj);
+            log.debug(obj)
+        }
+    </script>
+
 </head>
 
 <body>
-		<div id="container" class="nonav">
-			<h1>gesture test 1.0.11.12</h1>
-			<div id="content">
-				<table>
-				  	<tr>
-						<td width="40px">Gesture:</td>
-						<td width="40px"id="gtype"></td>
-						<td width="40px">Direction:</td>
-						<td width="40px"id="gdir"></td>
-						<td width="40px"></td>
-						<td width="40px"id="gzz"></td>
-						<td></td>
-						<td></td>
-				  	</tr>
-				  	<tr>
-						<td>x:</td>
-						<td id="gx"></td>
-						<td>y:</td>
-						<td id="gy"></td>
-						<td>z:</td>
-						<td id="gz"></td>
-						<td></td>
-						<td></td>
-				  	</tr>
-				</table>  	
-			</div>
-			<div id="console">
-			</div>
-		</div>
-<br class="clear" />
+    <div id="container" class="nonav">
+        <h1>gesture test 1.0.11.13</h1>
+        <div id="content">
+            <table>
+                <tr>
+                    <td width="40px">Gesture:</td>
+                    <td width="40px" id="gtype"></td>
+                    <td width="40px">Direction:</td>
+                    <td width="40px" id="gdir"></td>
+                    <td width="40px"></td>
+                    <td width="40px" id="gzz"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>x:</td>
+                    <td id="gx"></td>
+                    <td>y:</td>
+                    <td id="gy"></td>
+                    <td>z:</td>
+                    <td id="gz"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div id="console">
+        </div>
+    </div>
+    <br class="clear" />
 </body>
+
 </html>
 
