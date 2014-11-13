@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Raphaël · Animated Chart</title>
+    <!-- http://jsfiddle.net/symro/ds4kj/5/ -->
+    <link rel="stylesheet" href="demo.css" media="screen">
+    <style media="screen">
+        #holder {
+            height: 230px;
+            margin: -115px 0 0 -310px;
+            width: 620px;
+        }
+    </style>
+    <script src="raphael.js"></script>
+    <script>
+        Raphael(function () {
+            var r = Raphael("holder", 620, 250),
+                e = [],
+                clr = [],
+                values = [],
+                now = 0,
+                c = r.path("M0,0").attr({
+                    fill: "none",
+                    opacity: .3,
+                    "stroke-width": 4,
+                    "stroke-linecap": "round"
+                }),
+                bg = r.path("M0,0").attr({
+                    stroke: "none",
+                    opacity: .3
+                }),
+                dotsy = [];
+
+            function randomPath(length, j) {
+                var path = "",
+                    x = 10,
+                    y = 0;
+                dotsy[j] = dotsy[j] || [];
+                for (var i = 0; i < length; i++) {
+                    dotsy[j][i] = Math.round(Math.random() * 200);
+                    if (i) {
+                        x += 20;
+                        y = 240 - dotsy[j][i];
+                        path += "," + [x, y];
+                    } else {
+                        path += "M" + [10, (y = 240 - dotsy[j][i])] + "R";
+                    }
+                }
+                //console.log(path);
+                return path;
+            }
+
+            for (var i = 0; i < 5; i++) {
+                values[i] = randomPath(20, i);
+                clr[i] = Raphael.getColor(i);
+            }
+
+            var idx = 0;
+            c.attr({
+                path: values[idx],
+                stroke: "green"
+            });
+            idx = 1;
+            c.attr({
+                path: values[idx],
+                stroke: "red"
+            });
+
+            /*            
+            var time = 500;
+            var anim = Raphael.animation({
+                path: values[idx],
+                stroke: clr[idx]
+            }, time, "<>");
+
+            
+            //c.animate(anim);
+            bg.animateWith(c, anim, {
+                path: values[idx] + "L590,250 10,250z",
+                fill: "none"
+            }, time, "<>");
+
+            bg.attr({
+                path: values[0] + "L590,250 10,250z",
+                fill: "none"
+            });
+
+            // var line1 = r.path(["M", 100, 0, "L", 30, 100]). // attr({ // stroke: "green" // });
+            // relative
+            //var line2 = r.path(["M", 200, 0, "l", 30, 100]); 
+
+*/
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="holder"></div>
+</body>
+
+</html>
