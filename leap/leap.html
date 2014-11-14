@@ -22,28 +22,43 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
         var previousFrame = null;
         var paused = false;
         var pauseOnGesture = false;
-
+        var host = '127.0.0.1';
+        host = '10.0.1.94';
          // Setup Leap loop with frame callback function
         var controllerOptions = {
-            host: '127.0.0.1',
+            host: host,
             port: 6437,
             enableGestures: false,
             loopWhileDisconnected: true,
             useAllPlugins: true
         };
 
-         // to use HMD mode:
-         // controllerOptions.optimizeHMD = true;
+        var fps = 0;
+        var frameCount = 0;
+        var firstFrameTime = 0;
 
         Leap.loop(controllerOptions, function (frame) {
             if (paused) {
                 return; // Skip this update
             }
+            // calc FPS
+            frameCount++;
+            if (firstFrameTime == 0)
+                firstFrameTime = frame.timestamp;
+            else {
+                var delta = frame.timestamp - firstFrameTime;
+                if (delta >= 1000000) {
+                    fps = frameCount;
+                    frameCount = 0;
+                    firstFrameTime = frame.timestamp;
+                }
+            }
 
             // Display Frame object data
             var frameOutput = document.getElementById("frameData");
 
-            var frameString = "Frame ID: " + frame.id + "<br />" + "Timestamp: " + frame.timestamp + " &micro;s<br />" + "Hands: " + frame.hands.length + "<br />";
+            var frameString = "Host: " + host + ", ~" + fps + " FPS " +
+                " Frame ID: " + frame.id + "<br />" + "Timestamp: " + frame.timestamp + " &micro;s<br />" + "Hands: " + frame.hands.length + "<br />";
 
             // Frame motion factors
             if (previousFrame && previousFrame.valid) {
