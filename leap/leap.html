@@ -7,8 +7,6 @@ See additional libraries, guides, and examples at:
 cheatsheet
 https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.html#id33
 */
-
-
 -->
 
 <html>
@@ -17,8 +15,24 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Leap Motion JavaScript Sample</title>
     <script src="leap-0.6.3.min.js"></script>
+    <script src="dataplot.js"></script>
+    <script src="ondomready.js"></script>
     <script>
-        // Store frame for motion functions
+        onDomReady(function () {
+            // call this once per page, after the DOM is ready.
+            //window.plotter = new LeapDataPlotter();
+            // custom canvas
+            window.plotter1 = new LeapDataPlotter({
+                el: document.getElementById('plot1')
+            });
+            window.plotter2 = new LeapDataPlotter({
+                el: document.getElementById('plot2')
+            });
+            window.plotter3 = new LeapDataPlotter({
+                el: document.getElementById('plot3')
+            });
+        });
+         // Store frame for motion functions
         var previousFrame = null;
         var paused = false;
         var pauseOnGesture = false;
@@ -41,6 +55,7 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
             if (paused) {
                 return; // Skip this update
             }
+            /***
             // calc FPS
             frameCount++;
             if (firstFrameTime == 0)
@@ -60,6 +75,65 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
             var frameString = "Host: " + host + ", ~" + fps + " FPS " +
                 " Frame ID: " + frame.id + "<br />" + "Timestamp: " + frame.timestamp + " &micro;s<br />" + "Hands: " + frame.hands.length + "<br />";
 
+            */
+            var hand = frame.hands[0];
+            if (!hand) return;
+
+            // call this once per frame per plot
+
+            plotter1.plot('X pos', hand.palmPosition[0], {
+                precision: 3,
+                units: 'mm'
+            });
+
+            plotter1.plot('Y pos', hand.palmPosition[1], {
+                precision: 3,
+                units: 'mm'
+            });
+
+            plotter1.plot('Z pos', hand.palmPosition[2], {
+                precision: 3,
+                units: 'mm'
+            });
+
+            plotter1.update()
+
+            
+            plotter2.plot('X velocity', hand.palmVelocity[0], {
+                precision: 4,
+                units: 'mm/s'
+            });
+
+            plotter2.plot('Y velocity', hand.palmVelocity[1], {
+                precision: 4,
+                units: 'mm/s'
+            });
+            plotter2.update()
+
+            plotter2.plot('Z velocity', hand.palmVelocity[2], {
+                precision: 4,
+                units: 'mm/s'
+            });
+            plotter2.update()
+
+            plotter3.plot('X dir', hand.direction[0], {
+                precision: 3,
+                units: 'mm'
+            });
+
+            plotter3.plot('Y dir', hand.direction[1], {
+                precision: 3,
+                units: 'mm'
+            });
+
+            plotter3.plot('Z dir', hand.direction[2], {
+                precision: 3,
+                units: 'mm'
+            });
+
+            plotter3.update()
+
+            /*
             // Frame motion factors
             if (previousFrame && previousFrame.valid) {
                 var translation = frame.translation(previousFrame);
@@ -112,7 +186,7 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
                 handString += "No hands";
             }
             handOutput.innerHTML = handString;
-
+            */
 
             // Store frame for motion functions
             previousFrame = frame;
@@ -148,10 +222,18 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
 <body>
     <h1>Leap Motion JavaScript Sample 1.0.1.13</h1>
     <div id="main">
-        <button id="pause" onclick="togglePause()">Pause</button>
-        <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause on gesture</input>
         <h3>Frame data:</h3>
+        
         <div id="frameData"></div>
+
+        <canvas id="plot1" >
+        </canvas>
+        <canvas id="plot2" >
+        </canvas>
+        <canvas id="plot3" >
+        </canvas>
+
+<!--
         <div style="clear:both;"></div>
         <h3>Hand data:</h3>
         <div id="handData"></div>
@@ -161,6 +243,7 @@ https://developer.leapmotion.com/documentation/javascript/api/Leap.Controller.ht
         <div style="clear:both;"></div>
         <h3>Gesture data:</h3>
         <div id="gestureData"></div>
+-->
     </div>
 </body>
 
