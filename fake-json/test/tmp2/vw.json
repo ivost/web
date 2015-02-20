@@ -1,0 +1,1550 @@
+{
+  "api": {
+    "cdn": {
+      "description": "The content delivery network is implemented as a service on the headunit to deliver static content like images, music, video etc. It can be understood as the ‘external media interface’.",
+      "resources": {
+        "images": {
+          "model": {
+            "resource": "cdn.images"
+          },
+          "description": "Retrieve binary image data. The server will not scale content, but instead deliver the closest match.",
+          "endpoints": {
+            "resource": {
+              "post": {
+                "parameters": {},
+                "Process": "for(file in files){var added = res.getInterfaceByName(\"cdn\").images.set.add({'name' :files[file].name, 'type':files[file].type});var data= fs.readFileSync(files[file].path);var ee= fs.writeFileSync('./binary/cdn/images/'+added.id,data);}response.status(201);var location = request.url;if( location.indexOf('/', location.length - 1) === -1) {location += '/';}location += added.id;response.location(location);"
+              },
+              "get": {
+                "parameters": {
+                  "resource": "cdn.images",
+                  "method": "get",
+                  "description": "",
+                  "properties": {
+                    "w": {
+                      "description": "desired image width",
+                      "type": "Integer",
+                      "unit": "px"
+                    },
+                    "h": {
+                      "description": "desired image height",
+                      "type": "Integer",
+                      "unit": "px"
+                    }
+                  }
+                }
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {
+                  "resource": "cdn.images",
+                  "method": "get",
+                  "description": "The server will not scale content, but instead deliver the closest match.",
+                  "properties": {
+                    "w": {
+                      "description": "desired image width",
+                      "type": "Integer",
+                      "unit": "px"
+                    },
+                    "h": {
+                      "description": "desired image height",
+                      "type": "Integer",
+                      "unit": "px"
+                    }
+                  }
+                },
+                "Process": "var sendFile =fs.readFileSync('binary/cdn/images/'+element.id);response.type(element.type);response.send(sendFile);"
+              },
+              "put": {
+                "parameters": {},
+                "description": "Store new binary image data. (extra permissions necessary: createImages)"
+              },
+              "delete": {
+                "parameters": {},
+                "description": "Delete binary image data. (extra permissions necessary: deleteImages)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "medialibrary": {
+      "description": "",
+      "resources": {
+        "sources": {
+          "description": "This endpoint provides access to the media sources available in the media library.",
+          "model": {
+            "name": "mediaLibrarySourceObject",
+            "resource": "medialibrary.sources",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "source name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource"
+          ]
+        },
+        "tracks": {
+          "description": "Provides a list of all tracks available in the system, might contain connected devices content as well.",
+          "model": {
+            "name": "trackObject",
+            "resource": "medialibrary.tracks",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "Track title",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "image": {
+                "description": "cover art",
+                "type": "string",
+                "format": "uri"
+              },
+              "genres": {
+                "description": "track genre",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.genres.genreObject"
+                    }
+                  ]
+                }
+              },
+              "folders": {
+                "description": "actual folder the item resides in",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.folders.folderObject"
+                    }
+                  ]
+                }
+              },
+              "rating": {
+                "description": "owner rating",
+                "type": "Integer",
+                "minimum": 0
+              },
+              "albums": {
+                "description": "albums containing this track",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.albums.albumObject"
+                    }
+                  ]
+                }
+              },
+              "artists": {
+                "description": "track artists",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.artists.artistObject"
+                    }
+                  ]
+                }
+              },
+              "date": {
+                "description": "release date",
+                "type": "string",
+                "format": "date-time"
+              },
+              "disc": {
+                "description": "disc of album",
+                "type": "Integer",
+                "minimum": 0
+              },
+              "duration": {
+                "description": "track duration",
+                "type": "Integer",
+                "minimum": 0,
+                "unit": "s"
+              },
+              "source": {
+                "description": "Source of the file",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "medialibrary.sources.mediaLibrarySourceObject"
+                  }
+                ]
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource"
+          ]
+        },
+        "albums": {
+          "description": "Provides a list of all albums available in the system, might contain connected devices content as well.",
+          "model": {
+            "name": "albumObject",
+            "resource": "medialibrary.albums",
+            "properties": {
+              "id": {
+                "description": "Identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "album title",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "genres": {
+                "description": "album genre",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.genres.genreObject"
+                    }
+                  ]
+                }
+              },
+              "image": {
+                "description": "album art",
+                "type": "string",
+                "format": "uri"
+              },
+              "rating": {
+                "description": "album rating",
+                "type": "Integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "artists": {
+                "description": "album artist",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.artists.artistObject"
+                    }
+                  ]
+                }
+              },
+              "date": {
+                "description": "release date",
+                "type": "string",
+                "format": "date-time"
+              },
+              "duration": {
+                "description": "total album duration",
+                "type": "Integer",
+                "minimum": 0,
+                "unit": "sec"
+              },
+              "tracks": {
+                "description": "album tracks",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.tracks.trackObject"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource"
+          ]
+        },
+        "artists": {
+          "description": "Provides a list of all known artists, might contain connected devices content as well.",
+          "model": {
+            "name": "artistObject",
+            "resource": "medialibrary.artists",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "artist name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "genres": {
+                "description": "artist genre",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.genres.genreObject"
+                    }
+                  ]
+                }
+              },
+              "image": {
+                "description": "artist art",
+                "type": "string",
+                "format": "uri"
+              },
+              "rating": {
+                "description": "owner rating",
+                "type": "Integer",
+                "minimum": 0
+              },
+              "albums": {
+                "description": "artist albums",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.albums.albumObject"
+                    }
+                  ]
+                }
+              },
+              "tracks": {
+                "description": "artists tracks",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.tracks.trackObject"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource"
+          ]
+        },
+        "genres": {
+          "description": "Provides an aggregated view over all known genres an the media related to it.",
+          "model": {
+            "name": "genereObject",
+            "resource": "medialibrary.genres",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "genre name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "rating": {
+                "description": "owner rating",
+                "type": "Integer",
+                "minimum": 0
+              },
+              "tracks": {
+                "description": "artists tracks",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.tracks.trackObject"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "playlists": {
+          "description": "Provides a list of all playlists available in the system, might contain connected devices content as well.",
+          "model": {
+            "name": "playlistObject",
+            "resource": "medialibrary.playlists",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "playlist name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "genres": {
+                "description": "playlist genre",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.genres.genreObject"
+                    }
+                  ]
+                }
+              },
+              "folders": {
+                "description": "actual folder the item resides in",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.folders.folderObject"
+                    }
+                  ]
+                }
+              },
+              "image": {
+                "description": "playlist art",
+                "type": "string",
+                "format": "uri"
+              },
+              "rating": {
+                "description": "owner rating",
+                "type": "Integer",
+                "minimum": 0
+              },
+              "artists": {
+                "description": "playlist artists",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.artists.artistObject"
+                    }
+                  ]
+                }
+              },
+              "date": {
+                "description": "last modification",
+                "type": "string",
+                "format": "date-time"
+              },
+              "duration": {
+                "description": "total duration",
+                "type": "Integer",
+                "minimum": 0,
+                "unit": "s"
+              },
+              "tracks": {
+                "description": "playlist tracks",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.tracks.trackObject"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "post": {
+                "parameters": {
+                  "resource": "medialibrary.playlists",
+                  "method": "post",
+                  "description": "",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "playlist name",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "parameters": {
+                  "resource": "medialibrary.playlists",
+                  "method": "post",
+                  "description": "",
+                  "properties": {
+                    "tracks": {
+                      "description": "track identifiers",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "rating": {
+                      "description": "owner rating",
+                      "type": "Integer",
+                      "minimum": 0
+                    },
+                    "image": {
+                      "description": "playlist art",
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              },
+              "delete": {
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "folders": {
+          "description": "Provides access to the media in folder layout, might contain contet of connected devices as well.",
+          "model": {
+            "name": "folderObject",
+            "resource": "medialibrary.folders",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "Folder name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "tracks": {
+                "description": "track files in folder",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.tracks.trackObject"
+                    }
+                  ]
+                }
+              },
+              "playlists": {
+                "description": "playlist files in folder",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.playlists.playlistObject"
+                    }
+                  ]
+                }
+              },
+              "videos": {
+                "description": "video files in folder",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.videos.videObject"
+                    }
+                  ]
+                }
+              },
+              "pictures": {
+                "description": "pictures files in folder",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.pictures.pictureObject"
+                    }
+                  ]
+                }
+              },
+              "folders": {
+                "description": "folders in folder",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.folders.folderObject"
+                    }
+                  ]
+                }
+              },
+              "abspath": {
+                "description": "absolute path to folder",
+                "type": "string"
+              },
+              "parent": {
+                "description": "parent folder",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "medialibrary.folders.folderObject"
+                  }
+                ]
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "element",
+            "resource"
+          ]
+        }
+      }
+    },
+    "media": {
+      "description": "",
+      "resources": {
+        "collections": {
+          "description": "The media collections can also be understood as media queues of the renderer. Media collections can only contain playable media like tracks, videos or pictures.",
+          "model": {
+            "name": "mediaCollectionObject",
+            "resource": "media.collections",
+            "properties": {
+              "id": {
+                "description": "collection id",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "collection name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "items": {
+                "description": "media collection items",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "medialibrary.videos.videoObject"
+                    },
+                    {
+                      "#ref": "medialibrary.pictures.pictureObject"
+                    },
+                    {
+                      "#ref": "medialibrary.tracks.trackObject"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "post": {
+                "description": "media can be any media object. All 'encapsulating' media objects like album, playlist etc. will be flattend to root level of mediacollection. E.g. if a playlist contains track A and B, the tracks A and B will be added to the mediacollection.",
+                "parameters": {
+                  "resource": "media.collections",
+                  "method": "post",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "description": "media identifier",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "description": "Media can be any media object. All 'encapsulating' media objects like album, playlist etc. will be flattend to root level of mediacollection. E.g. if a playlist contains track A and B, the tracks A and B will be added to the mediacollection.",
+                "parameters": {
+                  "resource": "media.collections",
+                  "method": "post",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "description": "media identifier",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              },
+              "delete": {
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "renderers": {
+          "description": "The media player renderer can be understood as the actual media player. It accepts media objects and applies actions like play, pause etc. to them.",
+          "model": {
+            "name": "rendererObject",
+            "resource": "media.renderers",
+            "properties": {
+              "id": {
+                "description": "renderer id",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "renderer name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "media": {
+                "description": "current media collection",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "media.collections.mediaCollectionObject"
+                  }
+                ]
+              },
+              "mediaindex": {
+                "description": "index of actual media object if media is a collection",
+                "type": "Integer",
+                "minimum": 0
+              },
+              "type": {
+                "description": "type of medium",
+                "type": "string",
+                "enum": [
+                  "track",
+                  "video",
+                  "image"
+                ]
+              },
+              "offset": {
+                "description": "current offset",
+                "type": "Integer",
+                "minimum": 0,
+                "unit": "ms"
+              },
+              "state": {
+                "description": "media renderers playback state",
+                "type": "string",
+                "enum": [
+                  "idle",
+                  "play",
+                  "pause",
+                  "stop",
+                  "ff",
+                  "fr"
+                ]
+              },
+              "repeat": {
+                "description": "repeat mode",
+                "type": "string",
+                "enum": [
+                  "off",
+                  "repeatall",
+                  "repeatone"
+                ]
+              },
+              "shuffle": {
+                "description": "shuffle mode",
+                "type": "string",
+                "enum": [
+                  "on",
+                  "off"
+                ]
+              },
+              "scan": {
+                "description": "shuffle mode",
+                "type": "string",
+                "enum": [
+                  "off",
+                  "up",
+                  "down"
+                ]
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "parameters": {
+                  "resource": "media.renderer",
+                  "method": "post",
+                  "description": "",
+                  "required": [
+                    "state"
+                  ],
+                  "properties": {
+                    "media": {
+                      "description": "media collection object",
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "mediaindex": {
+                      "description": "index of actual media object if media is a collection",
+                      "type": "Integer",
+                      "minimum": 0
+                    },
+                    "offset": {
+                      "description": "current offset",
+                      "type": "Integer",
+                      "minimum": 0,
+                      "unit": "ms"
+                    },
+                    "state": {
+                      "description": "media renderers playback state",
+                      "type": "string",
+                      "enum": [
+                        "idle",
+                        "play",
+                        "pause",
+                        "stop",
+                        "ff",
+                        "fr"
+                      ]
+                    },
+                    "repeat": {
+                      "description": "repeat mode",
+                      "type": "string",
+                      "enum": [
+                        "off",
+                        "repeatall",
+                        "repeatone"
+                      ]
+                    },
+                    "shuffle": {
+                      "description": "shuffle mode",
+                      "type": "string",
+                      "enum": [
+                        "on",
+                        "off"
+                      ]
+                    },
+                    "scan": {
+                      "description": "scanning mode",
+                      "type": "string",
+                      "enum": [
+                        "off",
+                        "up",
+                        "down"
+                      ]
+                    }
+                  }
+                },
+                "afterProcess": "var currentRenderer = res.getInterfaceByName(\"media\").renderer.get.resource()[0];if(currentRenderer.state ===\"play\"){logic.player.play();}if(currentRenderer.state ===\"pause\"){logic.player.pause();}if(currentRenderer.state ===\"stop\"){logic.player.stop();}if(currentRenderer.state ===\"idle\"){logic.player.idle();}if(currentRenderer.state ===\"ff\"){logic.player.ff();}if(currentRenderer.state ===\"fr\"){logic.player.fr();}"
+              },
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "element",
+            "resource"
+          ]
+        }
+      }
+    },
+    "mixer": {
+      "description": "The Mixer based on a concept of bindings between sources and outputs. A Binding connects a source and an output and has the ability to set a volume or mute the binding. All parts sources, bindings and outputs are mutable. A metaphor to describe the system would be a MP3-Player with multiple sound outlets (source) a cable with a volume control and a mute button (bindings) and a speaker with multiple sound inlets. There could be multiple players that can connect to multiple speakers. For each connection one binding is needed. There can only be on connection between a certain source and output. ![Mixer - Source,Binding,Output](/images/mixer.png \"Mixer - Source,Binding,Output\")",
+      "resources": {
+        "bindings": {
+          "description": "This endpoint defines if a source will be played on output and on which. It is possible to use multiple sources on multiple outputs. Think of bindings like cable on your home stereo system.",
+          "model": {
+            "name": "audioBindingObject",
+            "resource": "mixer.bindings",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "source name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "volume": {
+                "description": "current audio volume",
+                "type": "integer",
+                "maximum": 100,
+                "minimum": 0,
+                "unit": "percent"
+              },
+              "volumestepsize": {
+                "description": "possible audio volume steps",
+                "type": "integer",
+                "maximum": 100,
+                "minimum": 0,
+                "unit": "percent"
+              },
+              "source": {
+                "description": "the source that is bound",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "mixer.sources.audioSourceObject"
+                  }
+                ]
+              },
+              "output": {
+                "description": "the output the source is bound to",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "mixer.outputs.audioOutputObject"
+                  }
+                ]
+              },
+              "muted": {
+                "description": "muting state",
+                "type": "boolean"
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "post": {
+                "parameters": {
+                  "resource": "mixer.bindings",
+                  "method": "post",
+                  "description": "The combination of source and output has to be unique. Systems needs to be sure keeping the uniqueness when creating or changing of a binding. Returns an error if the combination of source and output is already in use.",
+                  "required": [
+                    "name",
+                    "volume",
+                    "source",
+                    "output"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "the name of the binding",
+                      "type": "string"
+                    },
+                    "volume": {
+                      "description": "binding volume (like a priority)",
+                      "type": "integer"
+                    },
+                    "muted": {
+                      "description": "muting state, default false",
+                      "type": "Boolean"
+                    },
+                    "source": {
+                      "description": "the uuid of the source",
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "output": {
+                      "description": "the uuid of the output",
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "parameters": {
+                  "resource": "mixer.bindings",
+                  "method": "post",
+                  "description": "The combination of source and output has to be unique. Systems needs to be sure keeping the uniqueness when creating or changing of a binding. Returns an error if the combination of source and output is already in use.",
+                  "properties": {
+                    "name": {
+                      "description": "the name of the binding",
+                      "type": "string"
+                    },
+                    "volume": {
+                      "description": "binding volume(like a priority)",
+                      "type": "integer"
+                    },
+                    "muted": {
+                      "description": "muting state, default false",
+                      "type": "Boolean"
+                    },
+                    "source": {
+                      "description": "the uuid of the source",
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "output": {
+                      "description": "the uuid of the output",
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "audiosources": {
+          "description": "Audio signal source, might be a bluetooth receiver, a CD player or the internal media renderer. Think of audio delivering blocks of a home stereo system.",
+          "model": {
+            "name": "audioSourceObject",
+            "resource": "mixer.audiosources",
+            "description": "",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "source name",
+                "type": "string",
+                "enum": [
+                  "main",
+                  "tuner",
+                  "mediaplayer",
+                  "phone",
+                  "navigation",
+                  "bluetooth",
+                  "speech"
+                ]
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "muted": {
+                "description": "muting state",
+                "type": "boolean"
+              },
+              "gainoffset": {
+                "description": "input gain offset",
+                "type": "integer",
+                "maximum": 100,
+                "minimum": 0,
+                "unit": "percent"
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource"
+          ]
+        },
+        "outputs": {
+          "description": "Audio outputs are sinks from the systems perspective like speakers, bluetooth streaming or headphones. A typical system has at least one output for the in-car speaker system (through amp) but can have multiple outputs.",
+          "model": {
+            "name": "audioOutputObject",
+            "resource": "mixer.outputs",
+            "description": "",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "output name",
+                "type": "string",
+                "enum": [
+                  "bluetooth",
+                  "rearset",
+                  "main",
+                  "headphones"
+                ]
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "status": {
+                "description": "output status (on/off)",
+                "type": "boolean"
+              },
+              "positioner": {
+                "description": "audio positioner object",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "mixer.positioners.positionerObject"
+                  }
+                ]
+              },
+              "equalizers": {
+                "description": "audio equalizer EqualizerObject",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "oneOf": [
+                    {
+                      "#ref": "mixer.equalizers.equalizerObject"
+                    }
+                  ]
+                }
+              },
+              "volume": {
+                "description": "the master volume of the output",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "unit": "percent"
+              },
+              "volumestepsize": {
+                "description": "possible audio volume steps",
+                "type": "integer",
+                "maximum": 100,
+                "minimum": 0,
+                "unit": "percent"
+              },
+              "gala": {
+                "description": "gala status",
+                "type": "string",
+                "enum": [
+                  "off",
+                  "auto",
+                  "curve1",
+                  "curve2",
+                  "curve3",
+                  "curve4",
+                  "curve5",
+                  "curve6",
+                  "curve7"
+                ]
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "parameters": {
+                  "resource": "mixer.output",
+                  "method": "post",
+                  "description": "",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "description": "output status (on/off)",
+                      "type": "Boolean"
+                    },
+                    "volume": {
+                      "description": "the master volume of the output",
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "gala": {
+                      "description": "gala status",
+                      "type": "string",
+                      "enum": [
+                        "off",
+                        "auto",
+                        "curve1",
+                        "curve2",
+                        "curve3",
+                        "curve4",
+                        "curve5",
+                        "curve6",
+                        "curve7"
+                      ]
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource",
+            "element"
+          ]
+        },
+        "positioners": {
+          "description": "Audio center positioner provides access to the balance and fader settings of eachpositioner. The linking to an output is held by audioOutputObject.",
+          "model": {
+            "name": "audioPositionerObject",
+            "resource": "mixer.positioners",
+            "description": "",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "audio positioner name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "balance": {
+                "description": "Balance settings",
+                "type": "Integer",
+                "minimum": -100,
+                "maximum": 100,
+                "unit": "percent"
+              },
+              "fader": {
+                "description": "Fader settings",
+                "type": "Integer",
+                "minimum": -100,
+                "maximum": 100,
+                "unit": "percent"
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "parameters": {
+                  "resource": "mixer.positioners",
+                  "method": "post",
+                  "description": "",
+                  "properties": {
+                    "balance": {
+                      "description": "Balance settings",
+                      "type": "Integer",
+                      "minimum": -100,
+                      "maximum": 100,
+                      "unit": "percent"
+                    },
+                    "fader": {
+                      "description": "Fader settings",
+                      "type": "Integer",
+                      "minimum": -100,
+                      "maximum": 100,
+                      "unit": "percent"
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "equalizers": {
+          "description": "Think of an equalizer as one single bar of a home stereos equalizer display. Every bar and thus equalizerObject inhere corresponds to a certain frequency and represents its level",
+          "model": {
+            "name": "equalizerObject",
+            "resource": "mixer.equalizers",
+            "description": "",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "equalizer name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "level": {
+                "description": "level",
+                "type": "Integer",
+                "minimum": -12,
+                "maximum": 12,
+                "unit": "decibel"
+              },
+              "freq": {
+                "description": "frequency",
+                "type": "Integer",
+                "unit": "Hz"
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "post": {
+                "parameters": {
+                  "resource": "mixer.equalizers",
+                  "method": "post",
+                  "description": "",
+                  "required": [
+                    "level",
+                    "freq"
+                  ],
+                  "properties": {
+                    "level": {
+                      "description": "level setting",
+                      "type": "Integer",
+                      "minimum": -12,
+                      "maximum": 12,
+                      "unit": "decibel"
+                    },
+                    "freq": {
+                      "description": "frequency",
+                      "type": "Integer",
+                      "minimum": 0,
+                      "unit": "Hz"
+                    }
+                  }
+                }
+              },
+              "get": {
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "bluetoothdevices": {
+          "description": "provides access to the mapping of bluetooth device to audiosource. Mappings are created on system side and thus read only.",
+          "model": {
+            "name": "bluetoothdeviceObject",
+            "resource": "mixer.bluetoothdevices",
+            "description": "",
+            "properties": {
+              "id": {
+                "description": "identifier",
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "description": "device name",
+                "type": "string"
+              },
+              "uri": {
+                "description": "object uri",
+                "type": "string",
+                "format": "uri"
+              },
+              "audiosource": {
+                "description": "audio source",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "#ref": "mixer.audiosources.audioSourceObject"
+                  }
+                ]
+              },
+              "mac": {
+                "description": "device mac address",
+                "type": "string",
+                "format": "macaddress"
+              }
+            }
+          },
+          "endpoints": {
+            "resource": {
+              "get": {
+                "parameters": {}
+              }
+            },
+            "element": {
+              "get": {
+                "parameters": {}
+              }
+            }
+          },
+          "systemTriggeredEvents": [
+            "resource",
+            "element"
+          ]
+        }
+      }
+    }
+  },
+  "serverInfo": {
+    "author": "Dr. Patrick Bartsch",
+    "version": "1.2.6",
+    "time": 1422974748
+  }
+}
