@@ -1,0 +1,33 @@
+<table class="table mytable">
+    <tr>
+        <td colspan="3"><h2>Audio source</h2></td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>{{source.name}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Volume change (positive to increase, negative to decrease)</td>
+        <td>
+            <input type="numer" ng-model="source.volumeChange">
+        </td>
+
+        <td>
+            <button ng-click="changeVol(source.volumeChange)" 
+                class="btn btn-primary">Change Volume</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Mute</td>
+        <td>
+            <input type="checkbox" ng-model="source.mute">
+        </td>
+
+        <td>
+            <button ng-click="mute(source.mute)" 
+                class="btn btn-primary">Mute</button>
+        </td>
+    </tr>
+
+</table>

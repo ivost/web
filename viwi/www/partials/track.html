@@ -1,0 +1,36 @@
+<table class="table mytable">
+    <tr>
+        <td colspan="2"><h2>Track {{track.name}}</h2></td>
+    </tr>
+    <tr>
+        <td>Track id</td>
+        <td>{{track.id}}</td>
+    </tr>
+    <tr>
+        <td>Track name</td>
+        <td>{{track.name}}</td>
+    </tr>
+    <tr>
+        <td colspan="2"><img ng-src="{{track.image}}"/></td>
+    </tr>
+    <tr>
+        <td>URI</td>
+        <td>{{track.uri}}</td>
+    </tr>
+    <tr>
+        <td>Artist</td>
+        <td>{{track.artists[0].name}}</td>
+    </tr>
+    <tr>
+        <td>Genre</td>
+        <td>{{track.genres[0].name}}</td>
+    </tr>
+    <tr>
+        <td>Year</td>
+        <td>{{track.date}}</td>
+    </tr>
+    <tr>
+        <td>Duration</td>
+        <td>{{track.duration}}</td>
+    </tr>
+</table>

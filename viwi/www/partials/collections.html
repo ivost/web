@@ -1,0 +1,13 @@
+<table class="table mytable">
+    <tr>
+        <td><h3>Media Collections</h3></td>
+        <td width="50%"></td>
+    </tr>
+    <tr ng-repeat="collection in collections">
+        <td>{{collection.items[0].name}}</td>
+        <td>
+            <a class="btn btn-primary" ui-sref="collection({id:collection.id})">View</a>
+            <a class="btn btn-danger"  ng-click="removeCollection({id:collection.id})">Remove from queue</a>
+        </td>
+    </tr>
+</table>

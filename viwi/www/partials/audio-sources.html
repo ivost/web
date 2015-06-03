@@ -1,0 +1,12 @@
+<table class="table mytable">
+    <tr>
+        <td><h3>Audio Sources</h3></td>
+        <td></td>
+    </tr>
+    <tr ng-repeat="source in sources">
+        <td>{{source.name}} </td>
+        <td>
+            <a class="btn btn-primary" ui-sref="vol-change({id:source.id})">Change volume</a>
+        </td>
+    </tr>
+</table>

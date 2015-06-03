@@ -1,0 +1,13 @@
+<table class="table mytable">
+    <tr>
+        <td><h3>Players</h3></td>
+        <td></td>
+    </tr>
+    <tr ng-repeat="player in players">
+        <td>{{player.name}} state: {{player.state}}</td>
+        <td>
+            <a class="btn btn-primary" ui-sref="player({id:player.id})">View</a>
+            <a class="btn btn-primary" ui-sref="player-edit({id:player.id})">Change</a>
+        </td>
+    </tr>
+</table>

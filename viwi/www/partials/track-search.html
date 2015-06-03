@@ -1,0 +1,30 @@
+<table class="table mytable">
+    <tr>
+        <td colspan="2">Search in tracks</td>
+    </tr>
+    <tr>
+        <td>
+            Search
+        </td>
+        <td>
+            <input type="text" ng-model="search.text">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button ng-click="search(search.text)" 
+                class="btn btn-primary">Search</button>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+<table class="table mytable">
+    <tr ng-repeat="track in tracks">
+        <td>{{track.name}}</td>
+        <td>
+            <a class="btn btn-primary" ui-sref="track({id:track.id})">View</a>
+            <a class="btn btn-primary" ui-sref="queue({id:track.id})">Queue</a>
+        </td>
+    </tr>
+</table>

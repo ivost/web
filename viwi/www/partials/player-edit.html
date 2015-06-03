@@ -1,0 +1,100 @@
+<table class="table mytable">
+    <tr>
+        <td>Send</td>
+        <td colspan="2">Player Change</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" ng-model="send.state"></td>
+        <td>State</td>
+        <td>
+            <select ng-model="selectedState"
+                ng-options="state as state.name for state in states">
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" ng-model="send.repeat"></td>
+        <td>Repeat</td>
+        <td>
+          <label>
+            <input type="radio" ng-model="player.repeat" value="off">
+            Off &nbsp;
+          </label>
+          <label>
+            <input type="radio" ng-model="player.repeat" value="repeatall">
+            Repeat All &nbsp;
+          </label>
+          <label>
+            <input type="radio" ng-model="player.repeat" value="repeatone">
+            Repeat One &nbsp;
+          </label>
+      </td>
+      </tr>
+    <tr>
+        <td><input type="checkbox" ng-model="send.scan"></td>
+        <td>Scan</td>
+        <td>
+          <label>
+            <input type="radio" ng-model="player.scan" value="off">
+            Off &nbsp;
+          </label>
+          <label>
+            <input type="radio" ng-model="player.scan" value="up">
+            Up &nbsp;
+          </label>
+          <label>
+            <input type="radio" ng-model="player.scan" value="down">
+            Down &nbsp;
+          </label>
+      </td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" ng-model="send.shuffle"></td>
+        <td>Shuffle</td>
+        <td>
+          <label>
+            <input type="radio" ng-model="player.shuffle" value="on">
+            On &nbsp;
+          </label>
+          <label>
+            <input type="radio" ng-model="player.shuffle" value="off">
+            Off &nbsp;
+          </label>
+        </td>
+    </tr>
+
+    <tr>
+        <td><input type="checkbox" ng-model="send.mediaindex"></td>
+        <td>
+            Media index
+        </td>
+        <td>
+            <input type="text" ng-model="player.mediaindex">
+        </td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" ng-model="send.speed"></td>
+        <td>
+            Speed
+        </td>
+        <td>
+            <input type="text" ng-model="player.speed">
+        </td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" ng-model="send.offset"></td>
+        <td>
+            Offset
+        </td>
+        <td>
+            <input type="text" ng-model="player.offset">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button ng-click="updateState(player.id)" 
+                class="btn btn-primary">Change</button>
+        </td>
+        <td colspan="2"></h2></td>
+    </tr>
+</table>

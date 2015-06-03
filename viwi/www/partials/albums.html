@@ -1,0 +1,12 @@
+<table class="table mytable">
+    <tr>
+        <td><h3>Albums</h3></td>
+        <td></td>
+    </tr>
+    <tr ng-repeat="album in albums">
+        <td>{{album.name}}</td>
+        <td>
+            <a class="btn btn-primary" ui-sref="album({id:album.id})">View</a>
+        </td>
+    </tr>
+</table>
