@@ -1,0 +1,53 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function()
+{
+$("#div1").scroll(function () {
+        $("#div2").scrollTop($("#div1").scrollTop());
+        $("#div2").scrollLeft($("#div1").scrollLeft());
+    });
+$("#div2").scroll(function () {
+        $("#div1").scrollTop($("#div2").scrollTop());
+        $("#div1").scrollLeft($("#div2").scrollLeft());
+    });
+
+});
+
+</script>
+</head>
+<body>
+<div id="div1" style="float:left;overflow:auto;height:100px;width:200px;">
+
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+
+</div>
+
+<div id="div2" style="float:right;overflow:auto;height:100px;width:200px;">
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+<p>lulz</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<script>
+
+var client = new WebSocket('ws://54.149.175.204:8080', 'myprot');
+
+client.onerror = function() {
+    console.log('Connection Error');
+};
+
+client.onopen = function() {
+    console.log('Session open');
+
+    // function sendIt() {
+    //     if (client.readyState === client.OPEN) {
+    //         var number = Math.round(Math.random() * 0xFFFFFF);
+    //         console.log('Sending random number ' + number);
+    //         var obj = { id: number, name: 'foo'};
+    //         //client.send(number.toString());
+    //         client.send(JSON.stringify(obj));
+    //         setTimeout(sendIt, 1000);
+    //     }
+    // }
+    // sendIt();
+};
+
+client.onclose = function() {
+    console.log('Session Closed');
+};
+
+// data received
+client.onmessage = function(e) {
+    if (typeof e.data === 'string') {
+        console.log('Received: ' + e.data);
+        var msg = JSON.parse(e.data);
+        console.log('id: ' + msg.id + ', value: ' + msg.value);
+        // update something on the page
+    }
+};
+</script>

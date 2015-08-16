@@ -1,0 +1,14 @@
+.top{
+    background: yellow;
+    height: 100px;
+    overflow-x: auto;
+}
+.bottom{
+    background: red;
+    height: 100px;
+    overflow-x: auto;
+}
+.content{
+    width: 300%;
+    height: 100%;
+}
