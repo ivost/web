@@ -8,23 +8,23 @@ angular.module('todo', ['ionic'])
   var x2 = 0;
   var px1 = 1;
   var px2 = 1;
-
+  var eps = 1;
   $scope.scrolledA1 = function() {
     //console.log(v1);
     x1 = v1.getScrollPosition().left;
-    if (Math.abs(x1 - px1) >= 1) {
+    if (Math.abs(x1 - px1) >= eps) {
       px1 = x1;
       //console.log("A1 x1 " + x1);
-      v2.scrollTo(x1, 0, 1);
+      v2.scrollTo(x1, 0, true);
     }
   };
 
   $scope.scrolledA2 = function() {
     x2 = v2.getScrollPosition().left;
-    if (Math.abs(x2 - px2) >= 1) {
+    if (Math.abs(x2 - px2) >= eps) {
       //console.log("A2 x2 " + x2);
       px2 = x2;
-      v1.scrollTo(x2, 0, 1);
+      v1.scrollTo(x2, 0, true);
     }
 
     // if (!f2) {
