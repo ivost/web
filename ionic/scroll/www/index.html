@@ -19,18 +19,23 @@
 
       <ion-content>
 
-        <ion-scroll on-scroll="scrolledA1()" direction="xy" delegate-handle="A1" style="height: 200px; width: 1000px">
-          <div style="width: 5000px; height: 5000px; background: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Europe_geological_map-en.jpg') repeat"></div>
-        </ion-scroll>
-
-        <ion-scroll on-scroll="scrolledA2()" direction="xy" delegate-handle="A2" style="height: 200px; width: 1000px">
-          <div style="width: 5000px; height: 5000px; background: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Europe_geological_map-en.jpg') repeat"></div>
+        <ion-scroll direction="xy" style="height: 400px; width: 1000px">
+          <div style="width: 5000px; height: 200px; background: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Europe_geological_map-en.jpg') repeat"></div>
+          <div style="width: 5000px; height: 200px; background: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Europe_geological_map-en.jpg') repeat"></div>
          </ion-scroll>
 
       </ion-content>
 
 
 <!--
+
+<ion-scroll on-scroll="scrolledA1()" direction="xy" delegate-handle="A1" style="height: 200px; width: 1000px">
+  <div style="width: 5000px; height: 5000px; background: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Europe_geological_map-en.jpg') repeat"></div>
+</ion-scroll>
+
+<ion-scroll on-scroll="scrolledA2()" direction="xy" delegate-handle="A2" style="height: 200px; width: 1000px">
+  <div style="width: 5000px; height: 5000px; background: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Europe_geological_map-en.jpg') repeat"></div>
+ </ion-scroll>
 
 <button ng-click="scrollA1()">
   Scroll A1

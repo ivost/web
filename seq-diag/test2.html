@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+    </head>
+
+    	<div id="diagram"></div>
+        <script src="js/jquery.min.js"></script>
+
+        <script src="js/underscore-min.js"></script>
+        <script src="js/lodash.min.js"></script>
+        <script src="js/raphael-min.js"></script>
+        <script src="js/sequence-diagram-min.js"></script>
+        <script>
+            $(document).ready(function(){
+              var s = "A->B: Hello \n B->A: Hi \n A->C: Hello \n" +
+               "A->B: Let's do it \n C->A: Hi \n C->B: I am in";
+              var diagram = Diagram.parse(s);
+              diagram.drawSVG('diagram', {theme: 'simple'});
+            });
+        </script>
+    </body>
+</html>
