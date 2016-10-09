@@ -1,0 +1,20 @@
+# main listen port
+server:
+  port: 8088
+
+connection:
+    username: admin
+    remoteAddress: 192.168.1.1
+
+environments:
+    prod:
+        name: My Cool App
+        url: http://foo.bar.com
+    dev:
+        name: Developer Setup
+        url: http://dev.bar.com
+
+my:
+   servers:
+       - dev.bar.com
+       - foo.bar.com
