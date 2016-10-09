@@ -6,6 +6,10 @@ import { Component } from 'angular2/core'
 })
 export class ProductListComponent {
     pageTitle = 'Product List'
+    listFilter = 'cart'
+    imageWidth = 50
+    imageMargin = 2
+    showImage = false
     products = [
     {
         "productId": 1,
@@ -29,4 +33,8 @@ export class ProductListComponent {
     },
 
     ]
+
+    toggleImage(): void {
+        this.showImage = ! this.showImage
+     }
 }
