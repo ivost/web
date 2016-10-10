@@ -11,7 +11,7 @@ import { ICustomer, IOrder, IState } from '../../../app/shared/interfaces';
 @Injectable()
 export class DataService {
   
-    _baseUrl: string = '';
+    _baseUrl: string = 'http://swapi.co/api/';
     customers: ICustomer[];
     orders: IOrder[];
     states: IState[];
@@ -20,8 +20,10 @@ export class DataService {
     
     getCustomers() : Observable<ICustomer[]> {
         if (!this.customers) {
-            return this.http.get(this._baseUrl + 'customers.json')
+            //return this.http.get(this._baseUrl + 'customers.json')
+            return this.http.get(this._baseUrl + 'people')
                         .map((res: Response) => {
+                            console.log(res.json());
                             this.customers = res.json();
                             return this.customers;
                         })
