@@ -2,20 +2,30 @@
 <html>
 <head>
 <title>Video test</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
 </head>
 <body>
 <h1>Video test</h1>
+
+<canvas id="canvas">
+	
+</canvas>
+
+<!-- <div>
+<input id="edit" type="button" value="Edit" />
+<input id="reset" type="button" value="Reset" />
+</div>
+ -->
+<textarea id="code" class="playable-code">
+ctx.fillStyle = "pink";
+ctx.fillRect(10, 10, 100, 100);
+</textarea>
+
 <video controls loop>
-    <source src=big_buck_bunny.mp4 type=video/mp4>
+    <source src="big_buck_bunny.mp4" type="video/mp4">
     <p>Your browser doesn't support mp4 video</p>
 </video>
+
+<script src="main.js"></script>
 
 </body>
 </html>
