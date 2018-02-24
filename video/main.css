@@ -6,9 +6,9 @@ body {
     position: absolute;
     opacity: 0.5;
     top: 100px;
-    left: 100px;
-    width: 700px;
-    height: 300px;
+    left: 200px;
+    width: 20%;
+    height: 20%;
     z-index: 1;
 }
 
@@ -17,7 +17,10 @@ body {
     opacity: 0.99;
     top: 0px;
     left: 0px;
-    width: 1440px;
-    height: 480px;
+    width: 100%;
     z-index: -1;
 }
+/*  
+    width: 1440px;
+    height: 480px;
+*/
