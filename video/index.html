@@ -7,13 +7,15 @@
 </head>
 
 <body>
-<h1>Video test 1.3</h1>
+<h1>Video test 1.4</h1>
 
 <canvas id="c">
 </canvas>
-<video id="v" controls autoplay>
-    <source src="video.mp4" type="video/mp4">
-    <track default src="meta.vtt" kind="metadata">
+
+<video id="v" controls muted autoplay>
+    <source src="video.mp4" type="video/mp4" />
+    <track  src="meta.vtt"  kind="metadata" label="distance" default />
+    <track  src="track1.vtt" kind="subtitles" label="annotations" />
     <p>Your browser doesn't support mp4 video</p>
 </video>
 
