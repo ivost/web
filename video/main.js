@@ -8,16 +8,16 @@ document.addEventListener('DOMContentLoaded', function(){
     var ch = canvas.height
     var midx = Math.floor(cw/2)
 
-    console.log(v.textTracks)
     var trackElements = document.querySelectorAll("track");
+    console.log(v.textTracks)
     trackElements[0].addEventListener('load', function() {
       var textTrack = this.track;
       textTrack.oncuechange = function() {
         var cue = this.activeCues[0];
+        console.log(cue)
         if(!cue) {
           return;
         }
-        console.log(cue)
         var coord = JSON.parse(cue.text);
         //console.log('coord', coord)
         ctx.clearRect(0, 0, canvas.width, canvas.height);
