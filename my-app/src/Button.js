@@ -1,8 +1,8 @@
 import React, { Component } from 'react'; 
  
 class Button extends Component { 
-  style = {} 
- 
+  style = {fontWeight: 'bold', 'font-size':'large'}; 
+
   state = { 
     count: 0 
   } 
