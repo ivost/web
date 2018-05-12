@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+<script src='http://code.jquery.com/jquery-3.3.1.min.js'></script>
+<script src='http://worldofdatascience.com/kedion.min.js'></script>
+</head>
+    
+<body>
+</body>
+</html>
+    
+<script>  
+load_fonts({
+   "font" : "Titillium+Web"
+   });
+
+style_body({
+   "background" : "#dedede",
+   "font-family" : "Titillium Web",
+   "min-width" : "1000px",
+   "max-width" : "2000px"
+   });
+
+add_navigation_bar({
+    "this_class" : "my_nav"
+});
+
+add_layout('my_nav', 1, {
+    "this_class" : "nav_stuff",
+    "number_of_rows" : 1, 
+    "number_of_columns" : 2,
+    "row_class" : "nav_stuff_rows",
+    "cell_class" : "nav_stuff_cells"
+    });
+
+style_layout('nav_stuff', 1, {
+    "height" : "90px",
+    "column_widths" : ['50%', '50%'],
+    "border" : 1
+    });
+
+add_image('nav_stuff_cells', 1, {
+"this_class" : "my_logo",
+"image_path" : "http://bit.ly/2HKkvyF"
+});
+       
+</script>

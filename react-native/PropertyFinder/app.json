@@ -1,0 +1,9 @@
+{
+  "name": "PropertyFinder",
+  "expo": {
+    "name": "PropertyFinder",
+    "slug": "PropertyFinder",
+    "sdkVersion": "UNVERSIONED",
+    "privacy": "public"
+  }	
+}
