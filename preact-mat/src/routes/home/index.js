@@ -1,9 +1,10 @@
 import { h, Component } from 'preact';
-import Clock from '../../components/clock';
 import Card from 'preact-material-components/Card';
 import 'preact-material-components/Card/style.css';
 import 'preact-material-components/Button/style.css';
 import style from './style';
+import Clock from '../../components/clock';
+import GitSearch from '../../components/gitsearch';
 
 export default class Home extends Component {
 	render() {
@@ -18,7 +19,11 @@ export default class Home extends Component {
 					<div class={style.cardBody}>
 						foo bar
 					</div>
+
 					<div><Clock/></div>
+
+					<div><GitSearch/></div>
+
 					<Card.Actions>
 						<Card.ActionButton>OKAY</Card.ActionButton>
 					</Card.Actions>
