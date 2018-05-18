@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
+//import logo from './logo.svg';
+
 import './App.css';
 import ReactEventSource from 'react-eventsource'
 
-const renderEvent = event => <div>{ event }</div>
+// const URL = "http://192.168.6.134:8000/events"
+//           <ReactEventSource url="https://stream.wikimedia.org/v2/stream/recentchange">
+//            { events => events.map(renderEvent) }
+//           <ReactEventSource url="http://192.168.6.134:8000/events">
+
+//const renderEvent = event => <div>{ event }</div>
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
 
         <div>
-          <ReactEventSource url="https://stream.wikimedia.org/v2/stream/recentchange">
-            { events => events.map(renderEvent) }
+          <ReactEventSource url="http://localhost:8000/events">
+            { events => console.log(events) }
           </ReactEventSource>
         </div>
   
