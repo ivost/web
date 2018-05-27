@@ -10,15 +10,15 @@ import ReactEventSource from 'react-eventsource'
 //            { events => events.map(renderEvent) }
 //           <ReactEventSource url="http://192.168.6.134:8000/events">
 
-//const renderEvent = event => <div>{ event }</div>
+const renderEvent = event => <div>{ event }</div>
 class App extends Component {
   render() {
     return (
       <div className="App">
 
         <div>
-          <ReactEventSource url="http://localhost:8000/events">
-            { events => console.log(events) }
+          <ReactEventSource url="http://10.0.1.165:8000/events/">
+             { events => events.map(renderEvent) }
           </ReactEventSource>
         </div>
   
