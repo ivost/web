@@ -1,12 +1,8 @@
-"use strict";
-
-import React, { Component } from 'react';
+import React from 'react';
 import * as d3 from "d3";
 
 export default class ProgressArc extends React.Component {
-  // eslint-disable-next-line
   displayName: 'ProgressArc';
-
   propTypes: {
       id: PropTypes.string,
       height: PropTypes.number,
